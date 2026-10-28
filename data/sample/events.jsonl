@@ -1,0 +1,7 @@
+{"amount": 100.0, "customer_id": "customer_hot_001", "event_id": "event_000001", "event_ts": "2025-01-01T00:00:00Z", "run_id": "sample", "source_file": "sample.jsonl"}
+{"amount": 25.5, "customer_id": "customer_00001", "event_id": "event_000002", "event_ts": "2025-01-01T00:01:00Z", "run_id": "sample", "source_file": "sample.jsonl"}
+{"amount": 0.0, "customer_id": "customer_00001", "event_id": "event_000003", "event_ts": "2025-01-01T00:02:00Z", "run_id": "sample", "source_file": "sample.jsonl"}
+{"amount": 10.0, "customer_id": "customer_00002", "event_id": "event_000004", "event_ts": "not-a-timestamp", "run_id": "sample", "source_file": "sample.jsonl"}
+{"amount": 8.0, "customer_id": "customer_unknown", "event_id": "event_000005", "event_ts": "2025-01-01T00:04:00Z", "run_id": "sample", "source_file": "sample.jsonl"}
+{"amount": -3.0, "customer_id": "customer_00003", "event_id": "event_000006", "event_ts": "2025-01-01T00:05:00Z", "run_id": "sample", "source_file": "sample.jsonl"}
+{"amount": 25.5, "customer_id": "customer_00001", "event_id": "event_000002", "event_ts": "2025-01-01T00:06:00Z", "run_id": "sample", "source_file": "sample.jsonl"}
