@@ -132,12 +132,23 @@ Run `python -m spark_skew_lab.cli --help` for command options.
 
 ## Tests
 
-```bash
-pytest -q
-```
-
 Tests cover valid data, empty input, malformed/missing fields, duplicates, unexpected schema, invalid references, negative amounts, and baseline-vs-salted reconciliation. Some tests use local Spark and may take a little longer on the first JVM startup.
 
+### Test results
+
+### Test results
+
+- **Local test suite:** 9 tests passed in the validated development environment.
+- **GitHub Actions:** The `tests` workflow passed for commit `5d66a84`.
+- **Test command:** `python -m pytest -q`
+
+Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
+
+> **Execution note:** Passing automated tests does not confirm a successful end-to-end CLI run on Windows. The Parquet output step still needs additional Windows Hadoop setup.
+
+### Benchmark status
+
+Performance results are not published yet. Run the benchmark in your environment and review the generated report before making performance claims.
 ## GitHub submission
 
 1. Create a **public** repository named `spark-skew-lab`.
