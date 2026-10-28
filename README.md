@@ -2,7 +2,7 @@
 
 A local-first, reproducible PySpark data-engineering project for the YottaFlex 72-hour Spark skew challenge. It demonstrates synthetic data generation, validation and quarantine, duplicate handling, baseline vs. salted aggregation, reconciliation, run metrics, and automated tests.
 
-> **Honest benchmarking:** no performance numbers are claimed in advance. Run the benchmark on your machine and commit the generated report with your environment details.
+> **Benchmark evidence:** This repository includes measured, machine-specific results in `reports/benchmark.json`. Results are preliminary and should not be interpreted as a production performance guarantee. Run the benchmark on your machine and commit the generated report with your environment details.
 
 ## Requirements
 
@@ -133,8 +133,6 @@ Run `python -m spark_skew_lab.cli --help` for command options.
 ## Tests
 
 Tests cover valid data, empty input, malformed/missing fields, duplicates, unexpected schema, invalid references, negative amounts, and baseline-vs-salted reconciliation. Some tests use local Spark and may take a little longer on the first JVM startup.
-
-### Test results
 
 ### Test results
 
