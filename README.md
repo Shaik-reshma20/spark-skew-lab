@@ -147,8 +147,18 @@ Tests cover data generation, validation, quarantine, duplicate handling, and bas
 > **Execution note:** Passing automated tests does not confirm a successful end-to-end CLI run on Windows. The Parquet output step still needs additional Windows Hadoop setup.
 
 ### Benchmark status
+**Benchmark results (2026-10-28, local WSL2 environment)**
 
-Performance results are not published yet. Run the benchmark in your environment and review the generated report before making performance claims.
+- Input: 100,000 records; seed 42; hot share 0.70.
+- Salt buckets: 16; shuffle partitions: 8; AQE disabled.
+- Warm-up: 1 run per method; measured repetitions: 3.
+- Baseline timings: 1.5805, 0.4671, 0.5866 seconds; median: 0.5866 seconds.
+- Salted timings: 1.4060, 0.5368, 0.3958 seconds; median: 0.5368 seconds.
+- Baseline/salted median ratio: 1.0928x; salted median was 8.49% lower in this run.
+- Output group counts: 101 for both methods; group-count check passed.
+- Environment: Python 3.11.18, PySpark/Spark 3.5.5, WSL2 Linux, `local[*]`.
+
+**Limitations:** Preliminary machine-specific result based on three measured repetitions. Timings varied between runs. Matching group counts alone does not prove aggregate values match. Benchmark timings cover aggregation and `count()` materialization, not the full pipeline. See `reports/benchmark.json`.
 ## GitHub submission
 
 1. Create a **public** repository named `spark-skew-lab`.
