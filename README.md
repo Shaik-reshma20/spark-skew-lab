@@ -146,7 +146,6 @@ Tests cover valid data, empty input, malformed/missing fields, duplicates, unexp
 - **Test command:** `python -m pytest -q`
 
 Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
->>>>>>> origin/main
 - **GitHub Actions:** The `tests` workflow completed successfully for commit `467b009` (workflow run #7).
 - **Test command:** `python -m pytest -q`
 
