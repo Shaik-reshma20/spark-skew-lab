@@ -2,7 +2,7 @@
 
 A local-first, reproducible PySpark data-engineering project for the YottaFlex 72-hour Spark skew challenge. It demonstrates synthetic data generation, validation and quarantine, duplicate handling, baseline vs. salted aggregation, reconciliation, run metrics, and automated tests.
 
-> **Honest benchmarking:** no performance numbers are claimed in advance. Run the benchmark on your machine and commit the generated report with your environment details.
+> **Benchmark evidence:** This repository includes measured, machine-specific results in `reports/benchmark.json`. Results are preliminary and should not be interpreted as a production performance guarantee. Run the benchmark on your machine and commit the generated report with your environment details.
 
 ## Requirements
 
@@ -136,8 +136,6 @@ Tests cover valid data, empty input, malformed/missing fields, duplicates, unexp
 
 ### Test results
 
-### Test results
-
 - **Local test suite:** 9 tests passed in the validated development environment.
 - **GitHub Actions:** The `tests` workflow passed for commit `5d66a84`.
 - **Test command:** `python -m pytest -q`
@@ -147,6 +145,7 @@ Tests cover data generation, validation, quarantine, duplicate handling, and bas
 > **Execution note:** Passing automated tests does not confirm a successful end-to-end CLI run on Windows. The Parquet output step still needs additional Windows Hadoop setup.
 
 ### Benchmark status
+
 **Benchmark results (2026-10-28, local WSL2 environment)**
 
 - Input: 100,000 records; seed 42; hot share 0.70.
@@ -159,6 +158,7 @@ Tests cover data generation, validation, quarantine, duplicate handling, and bas
 - Environment: Python 3.11.18, PySpark/Spark 3.5.5, WSL2 Linux, `local[*]`.
 
 **Limitations:** Preliminary machine-specific result based on three measured repetitions. Timings varied between runs. Matching group counts alone does not prove aggregate values match. Benchmark timings cover aggregation and `count()` materialization, not the full pipeline. See `reports/benchmark.json`.
+
 ## GitHub submission
 
 1. Create a **public** repository named `spark-skew-lab`.
