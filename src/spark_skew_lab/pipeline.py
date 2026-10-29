@@ -329,6 +329,47 @@ def run_pipeline(
     started = utc_now()
     start_clock = time.perf_counter()
     input_fingerprint = calculate_input_fingerprint(input_path)
+    # Idempotency guard for explicitly identified batches.
+    if batch_id is not None:
+        output_root = Path(output_dir)
+        existing_runs = []
+
+        if output_root.exists():
+            for metrics_file in output_root.glob(
+                "run_id=*/run_metrics.json"
+            ):
+                try:
+                    existing = json.loads(
+                        metrics_file.read_text(encoding="utf-8")
+                    )
+                except (OSError, json.JSONDecodeError):
+                    continue
+
+                if existing.get("batch_id") == batch_id:
+                    existing_runs.append(existing)
+
+        if existing_runs:
+            if len(existing_runs) > 1:
+                raise RuntimeError(
+                    f"Multiple runs found for batch_id={batch_id!r}; "
+                    "manual investigation required"
+                )
+
+            previous = existing_runs[0]
+
+            if previous.get("input_fingerprint") != input_fingerprint:
+                raise ValueError(
+                    f"batch_id={batch_id!r} was already used "
+                    "with different input content"
+                )
+
+            if previous.get("status") == "SUCCESS":
+                return previous
+
+            raise RuntimeError(
+                f"batch_id={batch_id!r} has a previous "
+                f"{previous.get('status')} run; inspect before retry"
+            )
 
     root = Path(output_dir) / f"run_id={run_id}"
 
