@@ -7,7 +7,7 @@ from pyspark.sql.types import DoubleType, StringType, StructField, StructType
 
 from spark_skew_lab.pipeline import (
     EVENT_SCHEMA, assert_no_unexpected_json_fields, baseline_aggregate,
-    salted_aggregate, validate_events,
+    run_pipeline, salted_aggregate, validate_events,
 )
 
 
@@ -83,3 +83,24 @@ def test_salt_requires_multiple_buckets(spark):
     accepted, _ = validate_events(df, "salt-test")
     with pytest.raises(ValueError):
         salted_aggregate(accepted, 1)
+
+
+def test_batch_idempotency_returns_previous_success(spark, tmp_path):
+    input_path = tmp_path / "events.jsonl"
+    input_path.write_text(
+        json.dumps(_row("idem-1", amount=7.0)) + "\n",
+        encoding="utf-8",
+    )
+    output_dir = tmp_path / "output"
+
+    first = run_pipeline(
+        str(input_path), str(output_dir), spark, batch_id="batch-idem-1"
+    )
+    second = run_pipeline(
+        str(input_path), str(output_dir), spark, batch_id="batch-idem-1"
+    )
+
+    assert first["status"] == "SUCCESS"
+    assert second["run_id"] == first["run_id"]
+    assert second["input_fingerprint"] == first["input_fingerprint"]
+    assert len(list(output_dir.glob("run_id=*/run_metrics.json"))) == 1
