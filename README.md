@@ -141,9 +141,9 @@ Tests cover valid data, empty input, malformed/missing fields, duplicates, unexp
 - **Local test suite:** 9 tests passed in the validated development environment.
 - **Test command:** `python -m pytest -q`
 - **GitHub Actions:** Workflow runs for earlier commits passed. Check the repository's Actions tab for the latest run status.
-- **Windows E2E validation:** A 1,000-record clean-input run succeeded: 1,000 accepted, 0 rejected, 95 aggregate groups from both methods, with successful reconciliation.
+- **WSL E2E validation:** A 1,000-record clean-input run succeeded: 1,000 accepted, 0 rejected, 95 aggregate groups from both methods, with successful reconciliation.
 
-**Note:** Windows E2E evidence covers a small clean-input run, not every edge case or production scenario.
+**Note:** WSL E2E evidence covers a small clean-input run, not every edge case or production scenario.
 
 ### Benchmark status
 
