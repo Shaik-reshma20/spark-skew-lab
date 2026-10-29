@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import time
@@ -34,6 +35,16 @@ EVENT_SCHEMA = StructType([
 CUSTOMER_IDS = [
     f"customer_{i:05d}" for i in range(1, 101)
 ] + ["customer_hot_001"]
+
+
+def calculate_input_fingerprint(input_path: str) -> str:
+    sha256 = hashlib.sha256()
+
+    with open(input_path, "rb") as file:
+        for chunk in iter(lambda: file.read(1024 * 1024), b""):
+            sha256.update(chunk)
+
+    return sha256.hexdigest()
 
 
 def utc_now() -> str:
@@ -296,6 +307,7 @@ def run_pipeline(
     output_dir: str,
     spark: SparkSession,
     salt_buckets: int = 16,
+    batch_id: str | None = None,
 ) -> dict[str, Any]:
     """
     Run the Spark pipeline and publish a unique run directory.
@@ -316,6 +328,7 @@ def run_pipeline(
     run_id = str(uuid.uuid4())
     started = utc_now()
     start_clock = time.perf_counter()
+    input_fingerprint = calculate_input_fingerprint(input_path)
 
     root = Path(output_dir) / f"run_id={run_id}"
 
@@ -323,12 +336,13 @@ def run_pipeline(
     root.mkdir(parents=True, exist_ok=False)
 
     metrics_path = root / "run_metrics.json"
-
     metrics: dict[str, Any] = {
         "run_id": run_id,
+        "batch_id": batch_id,
         "started_at": started,
         "status": "RUNNING",
         "input_path": str(input_path),
+        "input_fingerprint": input_fingerprint,
         "salt_buckets": salt_buckets,
     }
 

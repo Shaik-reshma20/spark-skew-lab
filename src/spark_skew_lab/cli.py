@@ -24,6 +24,7 @@ def main() -> None:
     run = sub.add_parser("run", help="Run validation, quarantine, aggregation and reconciliation")
     run.add_argument("--input", required=True)
     run.add_argument("--output-dir", default="output")
+    run.add_argument("--batch-id", default=None)
 
     bench = sub.add_parser("benchmark", help="Benchmark baseline and salted aggregation")
     bench.add_argument("--rows", type=int, default=100_000)
@@ -46,7 +47,12 @@ def main() -> None:
         )
         spark.sparkContext.setLogLevel("WARN")
         try:
-            result = run_pipeline(args.input, args.output_dir, spark)
+            result = run_pipeline(
+                args.input,
+                args.output_dir,
+                spark,
+                batch_id=args.batch_id,
+            )
             print(json.dumps(result, indent=2))
         finally:
             spark.stop()
