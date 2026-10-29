@@ -1,21 +1,21 @@
-# AI Usage Disclosure
+﻿# AI Usage Disclosure
 
-## Purpose
-AI assistance was used during development of this Spark Skew Lab project.
+AI tools were used as development assistance during this project.
 
-## Areas where AI assistance was used
-- Understanding the Spark skew challenge requirements.
-- Planning the project structure and implementation steps.
-- Troubleshooting Python, PySpark, Java, and environment setup issues.
-- Improving README documentation and setup instructions.
-- Interpreting test results and benchmark measurements.
-- Reviewing explanations of baseline aggregation, salted aggregation, and reconciliation.
+## Areas of AI Assistance
+- Assistance with PySpark pipeline implementation and code improvements.
+- CLI integration for batch ID tracking.
+- Input fingerprint calculation using SHA-256.
+- Debugging, test verification, and documentation improvements.
+- Git and GitHub workflow guidance.
 
-## Verification
-- Automated tests were executed locally.
-- The end-to-end pipeline was verified in WSL2.
-- Benchmark results were generated and recorded in `reports/benchmark.json`.
-- AI-generated suggestions were reviewed and tested where applicable.
+## Developer Review
+The project code and suggested changes were reviewed and validated by the developer. The local test suite passed 9 tests in the validated development environment.
 
-## Responsibility
-The project author is responsible for reviewing the implementation, understanding the submitted code, validating results, and explaining design decisions. This disclosure describes AI assistance used during development.
+## Limitations
+- AI suggestions may contain errors and require verification.
+- Benchmark results are machine-specific and preliminary.
+- The Windows end-to-end execution environment may have Hadoop configuration limitations.
+
+## Transparency
+This document summarizes AI assistance. It is not a complete verbatim prompt history.
