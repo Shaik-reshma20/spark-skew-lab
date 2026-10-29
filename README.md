@@ -136,24 +136,14 @@ Run `python -m spark_skew_lab.cli --help` for command options.
 
 Tests cover valid data, empty input, malformed/missing fields, duplicates, unexpected schema, invalid references, negative amounts, and baseline-vs-salted reconciliation. Some tests use local Spark and may take a little longer on the first JVM startup.
 
-
 ### Test results
 
-### Test results
-
-- **Local test suite:** 9 tests passed in the validated development environment after the input-order fallback fix.
-- **GitHub Actions:** The `tests` workflow completed successfully for commit `467b009` (workflow run #7).
+- **Local test suite:** 9 tests passed in the validated development environment.
 - **Test command:** `python -m pytest -q`
+- **GitHub Actions:** Latest reviewed workflow runs passed, including commit `9e93ac5`.
+- **Windows E2E validation:** A 1,000-record clean-input run succeeded: 1,000 accepted, 0 rejected, 95 aggregate groups from both methods, with successful reconciliation.
 
-Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
-- **GitHub Actions:** The `tests` workflow completed successfully for commit `467b009` (workflow run #7).
-- **Test command:** `python -m pytest -q`
-
-Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
-
-Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
-
-> **Execution note:** The automated test suite passed 9 tests in the validated development environment. A Windows end-to-end run also succeeded for 1,000 generated records: 1,000 accepted, 0 rejected, 95 aggregate groups from both methods, and successful reconciliation. Hadoop-related warnings appeared but did not prevent this run. This is a small clean-input validation, not proof of every production or edge-case scenario.
+**Note:** Windows E2E evidence covers a small clean-input run, not every edge case or production scenario.
 
 ### Benchmark status
 
@@ -162,27 +152,32 @@ Tests cover data generation, validation, quarantine, duplicate handling, and bas
 - Input: 100,000 records; seed 42; hot share 0.70.
 - Salt buckets: 16; shuffle partitions: 8; AQE disabled.
 - Warm-up: 1 run per method; measured repetitions: 3.
-- Baseline timings: 1.5805, 0.4671, 0.5866 seconds; median: 0.5866 seconds.
-- Salted timings: 1.4060, 0.5368, 0.3958 seconds; median: 0.5368 seconds.
-- Baseline/salted median ratio: 1.0928x; salted median was 8.49% lower in this run.
-- Output group counts: 101 for both methods; group-count check passed.
-- Environment: Python 3.11.18, PySpark/Spark 3.5.5, WSL2 Linux, `local[*]`.
+- Baseline median: 0.5866 seconds.
+- Salted median: 0.5368 seconds.
+- Baseline/salted median ratio: 1.0928x.
+- Salted median was 8.49% lower in this run.
+- Output group counts: 101 for both methods.
+- Environment: Python 3.11.18, Spark 3.5.5, WSL2 Linux, `local[*]`.
 
-**Limitations:** Preliminary machine-specific result based on three measured repetitions. Timings varied between runs. Matching group counts alone does not prove aggregate values match. Benchmark timings cover aggregation and `count()` materialization, not the full pipeline. See `reports/benchmark.json`.
+**Limitations:** Preliminary machine-specific results from three measured repetitions. Timings varied. Matching group counts alone does not prove aggregate values match. Timings cover aggregation and `count()` materialization, not the full pipeline. See `reports/benchmark.json`.
 
-## GitHub submission
+### GitHub repository
 
-1. Create a **public** repository named `spark-skew-lab`.
-2. From this project directory:
+Repository: https://github.com/Shaik-reshma20/spark-skew-lab
 
-   ```bash
-   git init
-   git add .
-   git commit -m "Build reproducible Spark skew lab"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/spark-skew-lab.git
-   git push -u origin main
-   ```
+The repository contains the implementation, tests, documentation, sample input, and benchmark report.
 
-3. Run all commands from a clean environment and commit the actual `reports/benchmark.json` output only after you have run it.
-4. Do not commit `.venv/`, Spark temporary files, credentials, or fabricated performance results.
+#### Verify
+
+Run from the project root:
+
+```powershell
+python -m pytest -q
+git status
+```
+
+Review `reports/benchmark.json` before making benchmark claims. Do not commit virtual environments, temporary Spark files, credentials, or fabricated performance results.
+
+#### AI disclosure
+
+See `docs/AI_USAGE.md` and `docs/PROMPT_HISTORY.md` for AI assistance documentation and prompt history.
