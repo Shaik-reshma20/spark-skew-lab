@@ -88,11 +88,13 @@ The generator creates customer IDs `customer_00001` through `customer_00100` plu
 
 ### Output tables
 
-- `accepted_events/`: validated event records.
-- `quarantine/`: source records with a `reject_reason`.
-- `baseline_aggregates/`: `customer_id`, `event_count`, `total_amount`.
-- `salted_aggregates/`: the same customer-level grain.
-- `run_metrics.json`: run ID, timestamps, status, input/accepted/rejected/output counts, duration, and failure details if available.
+Each pipeline run publishes datasets under its unique run directory:
+
+- `accepted/`: validated event records in Parquet.
+- `quarantine/`: rejected records with a `reject_reason`, in Parquet.
+- `baseline/`: baseline customer aggregates in Parquet.
+- `salted/`: salted customer aggregates in Parquet.
+- `run_metrics.json`: run ID, timestamps, status, input/accepted/rejected/output counts, duration, reconciliation results, output paths, and failure details if available.
 
 ## CLI usage
 
@@ -142,7 +144,7 @@ Tests cover valid data, empty input, malformed/missing fields, duplicates, unexp
 
 Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
 
-> **Execution note:** Passing automated tests does not confirm a successful end-to-end CLI run on Windows. The Parquet output step still needs additional Windows Hadoop setup.
+> **Execution note:** The automated test suite passed 9 tests in the validated development environment. A Windows end-to-end run also succeeded for 1,000 generated records: 1,000 accepted, 0 rejected, 95 aggregate groups from both methods, and successful reconciliation. Hadoop-related warnings appeared but did not prevent this run. This is a small clean-input validation, not proof of every production or edge-case scenario.
 
 ### Benchmark status
 
