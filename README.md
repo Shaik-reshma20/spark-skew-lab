@@ -139,7 +139,7 @@ Tests cover valid data, empty input, malformed/missing fields, duplicates, unexp
 ### Test results
 
 - **Local test suite:** 9 tests passed in the validated development environment.
-- **GitHub Actions:** The `tests` workflow passed for commit `5d66a84`.
+- **GitHub Actions:** The `tests` workflow completed successfully for commit `467b009` (workflow run #7).
 - **Test command:** `python -m pytest -q`
 
 Tests cover data generation, validation, quarantine, duplicate handling, and baseline-versus-salted reconciliation.
