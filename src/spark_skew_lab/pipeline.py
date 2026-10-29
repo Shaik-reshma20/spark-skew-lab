@@ -131,6 +131,7 @@ def read_events(
     )
 
 
+
 def validate_events(
     df: DataFrame,
     run_id: str,
@@ -143,6 +144,12 @@ def validate_events(
     If that row is invalid, a later duplicate is not substituted.
     Ordering is not a durable source-order guarantee.
     """
+    if "_input_order" not in df.columns:
+        df = df.withColumn(
+            "_input_order",
+            F.monotonically_increasing_id(),
+        )
+
     prepared = (
         df
         .withColumn(
